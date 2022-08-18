@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS message (
+  id INT PRIMARY KEY,
+  subject VARCHAR(150),
+  text VARCHAR(255) NOT NULL
+);

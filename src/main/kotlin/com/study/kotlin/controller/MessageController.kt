@@ -22,7 +22,7 @@ class MessageController(val service: MessageService) {
     }
 
     @PostMapping
-    fun posMessage(@RequestBody message: Message) {
+    fun postMessage(@RequestBody message: Message) {
         service.createMessage(message)
     }
 }

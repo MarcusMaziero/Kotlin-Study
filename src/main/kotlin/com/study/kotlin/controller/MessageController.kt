@@ -16,13 +16,13 @@ class MessageController(val service: MessageService) {
     }
 
     @GetMapping(path = ["/{id}"])
-    suspend fun getMessageById(@PathVariable id: Int): Message {
+    fun getMessageById(@PathVariable id: Int): Message {
         val teste = service.findMessage(id).orElseThrow() //TODO aqui precisa tratar corretamente
         return teste.toMessage()
     }
 
     @PostMapping
-    suspend fun postMessage(@RequestBody message: Message) = service.createMessage(message)
+    fun postMessage(@RequestBody message: Message) = service.createMessage(message)
 }
 
 fun MessageTable.toMessage(): Message {

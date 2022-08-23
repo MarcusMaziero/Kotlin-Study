@@ -11,12 +11,12 @@ class MessageService(val repository: MessageRepository) {
 
     fun findMessages(): List<MessageTable> = repository.findMessages()
 
-    suspend fun createMessage(message: Message) {
+    fun createMessage(message: Message) {
         val messageTable = MessageTable(message.id, message.subject, message.text)
         repository.save(messageTable)
     }
 
-    suspend fun findMessage(id: Int): Optional<MessageTable> {
+    fun findMessage(id: Int): Optional<MessageTable> {
         return repository.findById(id)
     }
 }

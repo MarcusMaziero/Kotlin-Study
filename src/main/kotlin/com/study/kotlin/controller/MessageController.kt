@@ -3,19 +3,17 @@ package com.study.kotlin.controller
 import com.study.kotlin.data.Message
 import com.study.kotlin.data.MessageTable
 import com.study.kotlin.service.MessageService
+import com.study.kotlin.service.toMessage
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class MessageController(val service: MessageService) {
+@RequestMapping("/message")
+class MessageController(private val service: MessageService) {
 
     @GetMapping
-    fun getMessages(): List<Message> {
-        return service.findMessages().map {
-            it.toMessage()
-        }
-    }
+    fun getMessages(): List<Message> = service.findMessages().map(MessageTable::toMessage)
 
-    @GetMapping(path = ["/{id}"])
+    @GetMapping("/{id}")
     fun getMessageById(@PathVariable id: Int): Message {
         val teste = service.findMessage(id).orElseThrow() //TODO aqui precisa tratar corretamente
         return teste.toMessage()
@@ -23,8 +21,7 @@ class MessageController(val service: MessageService) {
 
     @PostMapping
     fun postMessage(@RequestBody message: Message) = service.createMessage(message)
-}
 
-fun MessageTable.toMessage(): Message {
-    return Message(this.id, this.subject, this.text)
+    @DeleteMapping("/{id}")
+    fun deleteMessage(@PathVariable id: Int) = service.deleteMessage(id)
 }

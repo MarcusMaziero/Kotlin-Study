@@ -8,8 +8,7 @@
 .gradle
 build
 .idea
-data
-
+/data
 # BlueJ files
 *.ctxt
 

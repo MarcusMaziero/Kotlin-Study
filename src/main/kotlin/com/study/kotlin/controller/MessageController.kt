@@ -14,8 +14,8 @@ class MessageController(private val service: MessageService) {
     fun getMessages(): List<Message> = service.findMessages().map(MessageTable::toMessage)
 
     @GetMapping("/{id}")
-    fun getMessageById(@PathVariable id: Int): Message? =
-        service.findMessage(id).let { it?.toMessage() } ?: throw Exception("Mensagem não encontrada")
+    fun getMessageById(@PathVariable id: Int): Message =
+        service.findMessage(id)?.toMessage() ?: throw Exception("Mensagem não encontrada")
 
     @PostMapping
     fun postMessage(@RequestBody message: Message) = service.createMessage(message)

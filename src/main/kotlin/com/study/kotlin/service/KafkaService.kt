@@ -10,12 +10,11 @@ import org.springframework.stereotype.Service
 class KafkaService(private val kafkaTemplate: KafkaTemplate<Int, Any>, private val messageService: MessageService) {
 
     fun sendMessage(id: Int): Message {
-        val message = messageService.findMessage(id).let { it?.toMessage() } ?: throw Exception("Mensagem não encontrada")
-        kafkaTemplate.send(ProducerRecord(TOPIC_MESSAGE, id, message))
-        message.sendMessage = true
-        //duvida é correto fazer isso?
-        //ou deve criar um objeto novo de cópia e ai sim setar o true?
-        messageService.createMessage(message)
+        val message =
+            messageService.findMessage(id)?.toMessage() ?: throw Exception("Mensagem não encontrada")
+        val messageCurrent = message.copy(sentMessage = true)
+        kafkaTemplate.send(ProducerRecord(TOPIC_MESSAGE, id, messageCurrent))
+        messageService.createMessage(messageCurrent)
         return message
     }
 }

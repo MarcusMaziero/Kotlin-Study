@@ -7,6 +7,6 @@ class ValueSerializable() : Serializer<Any> {
 
     private val objectMapper: ObjectMapper = ObjectMapper()
 
-    override fun serialize(topic: String?, data: Any?): ByteArray? =
+    override fun serialize(topic: String?, data: Any?): ByteArray =
         data?.let { objectMapper.writeValueAsBytes(it) } ?: throw Exception("Erro ao serializar value kafka!")
 }

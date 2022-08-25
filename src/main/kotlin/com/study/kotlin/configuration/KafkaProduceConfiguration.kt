@@ -17,16 +17,15 @@ class KafkaProduceConfiguration(@Value("\${kafka.bootstrapAddress}") private val
 
     @Bean
     fun serializable(): ProducerFactory<Int, Any> {
-        val configsSerializable: MutableMap<String, Any?> = mutableMapOf(
-            BOOTSTRAP_SERVERS_CONFIG to this.servers,
-            KEY_SERIALIZER_CLASS_CONFIG to KeySerializable::class.java,
-            VALUE_SERIALIZER_CLASS_CONFIG to ValueSerializable::class.java
+        return DefaultKafkaProducerFactory(
+            mutableMapOf<String, Any?>(
+                BOOTSTRAP_SERVERS_CONFIG to this.servers,
+                KEY_SERIALIZER_CLASS_CONFIG to KeySerializable::class.java,
+                VALUE_SERIALIZER_CLASS_CONFIG to ValueSerializable::class.java
+            )
         )
-        return DefaultKafkaProducerFactory(configsSerializable)
     }
 
     @Bean
-    fun kafkaTemplate(): KafkaTemplate<Int, Any> {
-        return KafkaTemplate(this.serializable())
-    }
+    fun kafkaTemplate(): KafkaTemplate<Int, Any> = KafkaTemplate(this.serializable())
 }

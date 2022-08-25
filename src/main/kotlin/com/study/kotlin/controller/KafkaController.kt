@@ -12,7 +12,5 @@ import org.springframework.web.bind.annotation.RestController
 class KafkaController(private val kafkaService: KafkaService) {
 
     @GetMapping("/{id}")
-    fun sendMessage(@PathVariable id: Int): Message {
-        return kafkaService.sendMessage(id)
-    }
+    fun sendMessage(@PathVariable id: Int): Message = kafkaService.sendMessage(id)
 }

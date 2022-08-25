@@ -14,11 +14,11 @@ class MessageService(private val repository: MessageRepository) {
     fun findMessage(id: Int): MessageTable? = repository.findByIdOrNull(id)
 
     fun createMessage(message: Message) {
-        val messageTable = MessageTable(message.id, message.subject, message.text, message.sendMessage)
+        val messageTable = MessageTable(message.id, message.subject, message.text, message.sentMessage)
         repository.save(messageTable)
     }
 
     fun deleteMessage(id: Int) = repository.deleteById(id)
 }
 
-fun MessageTable.toMessage(): Message = Message(this.id, this.subject, this.text, this.sendMessage)
+fun MessageTable.toMessage(): Message = Message(this.id, this.subject, this.text, this.sendMessage, this.messageViewed)

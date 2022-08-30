@@ -3,20 +3,22 @@ package com.study.kotlin.service
 import com.study.kotlin.data.Message
 import com.study.kotlin.data.MessageTable
 import com.study.kotlin.data.repository.MessageRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
-class MessageService(val repository: MessageRepository) {
+class MessageService(private val repository: MessageRepository) {
 
     fun findMessages(): List<MessageTable> = repository.findMessages()
 
+    fun findMessage(id: Int): MessageTable? = repository.findByIdOrNull(id)
+
     fun createMessage(message: Message) {
-        val messageTable = MessageTable(message.id, message.subject, message.text)
+        val messageTable = MessageTable(message.id, message.subject, message.text, message.sentMessage)
         repository.save(messageTable)
     }
 
-    fun findMessage(id: Int): Optional<MessageTable> {
-        return repository.findById(id)
-    }
+    fun deleteMessage(id: Int) = repository.deleteById(id)
 }
+
+fun MessageTable.toMessage(): Message = Message(this.id, this.subject, this.text, this.sendMessage, this.messageViewed)
